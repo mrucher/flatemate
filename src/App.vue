@@ -15,9 +15,6 @@
         <li>
           <router-link to="/renter">Перейти к Renter</router-link>
         </li>
-        <li>
-          <router-link :to="{path: '/renter/' + login }">Искать квартиру</router-link>
-        </li>
 
       </ul>
       <router-view></router-view>

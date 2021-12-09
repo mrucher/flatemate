@@ -22,11 +22,12 @@
         <div v-for="apartment in apartments" v-bind:key="apartment.id">
           <ul>
             <li>ID {{ apartment.id }}</li>
-            <li>Количество комнат: {{apartment.roomsCount}}</li>
-            <li>Количество жильцов: {{apartment.lodgerCount}}</li>
+            <li>Количество комнат: {{ apartment.roomsCount }}</li>
+            <li>Количество жильцов: {{ apartment.lodgerCount }}</li>
             <li>Адрес: {{ apartment.address }}</li>
-            <li>Геопозиция: {{apartment.location}}</li>
-            <li>Цена: {{apartment.price}}</li>
+            <li>Геопозиция: {{ apartment.location }}</li>
+            <li>Цена: {{ apartment.price }}</li>
+            <router-link :to="{path: '/apartment/' + apartment.id }">Обзор</router-link>
           </ul>
 
         </div>
@@ -100,10 +101,27 @@ export default {
     if (this.isId) {
 
       // this.getFeedbacks()
+      this.getApartments()
       this.id = this.$route.params.id
       this.isShow = false
     }
   },
+  beforeRouteLeave(to, from, next) {
+    this.apartments = []
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.getApartments()
+    next()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.apartments = [];
+      vm.isId = vm.$route.params.id !== undefined
+      console.log(vm.isId)
+    })
+  }
+
 }
 </script>
 

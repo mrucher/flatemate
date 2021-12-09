@@ -50,11 +50,12 @@ const routes = [
         path: '/user', component: Users, props: {message: "Пользователи"}
     },
     {
-        path: '/renter', component: Renter, props: {message: "Наниматели"},
+        path: '/renter', component: Renter, props: {isAdd: false},
         children: [
             {
                 path: '/renter/:login',
-                component: LandlordApartments,
+                component: Renter,
+                props: {isAdd: true}
             }
 
         ]
