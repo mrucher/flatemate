@@ -163,6 +163,30 @@ export function getFeedbacks(context, id) {
 
 export function postPenter(context, renter) {
     var xhr = new XMLHttpRequest();
+    let user = context.users[0]
+    if (user.renters[0] !== undefined) {
+        xhr.open("DELETE", 'http://localhost:8080/renter/' + user.renters[0].id, true)
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+        xhr.send();
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+
+            }
+        }
+
+        // // alert(user.renters[0].id)
+        // renter = JSON.parse(renter)
+        // let r = {}
+        // for (let key in renter) {
+        //     r[key] = renter[key]
+        // }
+        // r['id'] = user.renters[0].id
+        // renter = r
+        // renter = JSON.stringify(renter)
+    }
+    // console.log(renter)
 
     xhr.open("POST", 'http://localhost:8080/renter', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')

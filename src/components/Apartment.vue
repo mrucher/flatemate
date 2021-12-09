@@ -1,30 +1,44 @@
 <template>
   <div id='Apartment'>
-    <div v-if="isId">
-      <h4>Квартира:</h4>
+    <div v-if="isShow">
+      <span>Введите данные</span>
+      <br>
+      <input v-model="maxPrice" placeholder="Максимальная цена">
+      <br>
+      <input v-model="rooms" placeholder="Количество комнат">
+      <br>
+      <input v-model="lodgers" placeholder="Количество жильцов">
+      <br>
+      <button v-on:click="loadAparts">Отправить</button>
     </div>
     <div v-else>
-      <h4>Квартиры:</h4>
-    </div>
-    <div>
-      <div v-for="apartment in apartments" v-bind:key="apartment.id">
-        <ul>
-          <li>ID {{ apartment.id }}</li>
-          <li>Количество комнат: {{apartment.roomsCount}}</li>
-          <li>Количество жильцов: {{apartment.lodgerCount}}</li>
-          <li>Адрес: {{ apartment.address }}</li>
-          <li>Геопозиция: {{apartment.location}}</li>
-          <li>Цена: {{apartment.price}}</li>
-        </ul>
+      <div v-if="isId">
+        <h4>Квартира:</h4>
+      </div>
+      <div v-else>
+        <h4>Квартиры:</h4>
+      </div>
+      <div>
+        <div v-for="apartment in apartments" v-bind:key="apartment.id">
+          <ul>
+            <li>ID {{ apartment.id }}</li>
+            <li>Количество комнат: {{apartment.roomsCount}}</li>
+            <li>Количество жильцов: {{apartment.lodgerCount}}</li>
+            <li>Адрес: {{ apartment.address }}</li>
+            <li>Геопозиция: {{apartment.location}}</li>
+            <li>Цена: {{apartment.price}}</li>
+          </ul>
 
+        </div>
+      </div>
+      <div v-if="isId">
+        <ApartmentFeedback :id=id>
+
+        </ApartmentFeedback>
+        <router-link :to="{path: '/landlord/' + login}">Назад</router-link>
       </div>
     </div>
-    <div v-if="isId">
-      <ApartmentFeedback :id=id>
 
-      </ApartmentFeedback>
-      <router-link :to="{path: '/landlord/' + login}">Назад</router-link>
-    </div>
 
   </div>
 </template>
@@ -48,6 +62,9 @@ export default {
       address: undefined,
       price: undefined,
       location: undefined,
+      maxPrice: undefined,
+      rooms: undefined,
+      lodgers: undefined,
       isId: Boolean,
       apartments: [],
       login: undefined,
@@ -66,16 +83,25 @@ export default {
     update: function () {
       this.isShow = !this.isShow;
     },
+    loadAparts: function () {
+      if (this.maxPrice !== undefined && this.lodgers !== undefined && this.rooms != undefined) {
+        Utils.getApartmentsFilter(this, this.rooms, this.lodgers, this.maxPrice)
+        this.isShow = false
+      } else {
+        alert("Введены не все данные")
+      }
+    }
 
   },
   mounted() {
     this.isId = this.$route.params.id !== undefined
-    this.getApartments()
+    // this.getApartments()
     this.login = sessionStorage.getItem("login")
     if (this.isId) {
 
       // this.getFeedbacks()
       this.id = this.$route.params.id
+      this.isShow = false
     }
   },
 }

@@ -10,16 +10,13 @@
           <router-link to="/apartment">Перейти к Apartment</router-link>
         </li>
         <li>
-          <router-link to="/apartment/feedback">Перейти к Apartment Feedback</router-link>
-        </li>
-        <li>
           <router-link to="/user">Перейти к User</router-link>
         </li>
         <li>
           <router-link to="/renter">Перейти к Renter</router-link>
         </li>
         <li>
-          <router-link to="/renter/feedback">Перейти к RenterFeedback</router-link>
+          <router-link :to="{path: '/renter/' + login }">Искать квартиру</router-link>
         </li>
 
       </ul>
@@ -176,6 +173,7 @@ export default {
   mounted(){
     if (sessionStorage.getItem("token") !== null) {
       this.isLogin = true;
+      this.login = sessionStorage.getItem("login")
       console.log(sessionStorage.getItem("token"))
     }
     else {

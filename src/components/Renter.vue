@@ -5,17 +5,21 @@
       <br>
       <input v-model="maxPrice" placeholder="Максимальная цена">
       <br>
-      <button v-on:click="send">Отправить</button>
-    </div>
-    <div v-else>
-      <span>Введите данные</span>
-      <br>
       <input v-model="rooms" placeholder="Количество комнат">
       <br>
       <input v-model="lodgers" placeholder="Количество жильцов">
       <br>
       <button v-on:click="loadAparts">Отправить</button>
     </div>
+<!--    <div v-else>-->
+<!--      <span>Введите данные</span>-->
+<!--      <br>-->
+<!--      <input v-model="rooms" placeholder="Количество комнат">-->
+<!--      <br>-->
+<!--      <input v-model="lodgers" placeholder="Количество жильцов">-->
+<!--      <br>-->
+<!--      <button v-on:click="loadAparts">Отправить</button>-->
+<!--    </div>-->
     <div v-if="isFiltred">
       <div v-for="apartment in apartments" v-bind:key="apartment.id">
         <ul>
@@ -77,10 +81,11 @@ export default {
         alert("Введены не все данные")
       }
       this.isShow = false
+      this.isFiltred = true
     },
     loadAparts: function () {
       Utils.getApartmentsFilter(this, this.rooms, this.lodgers, this.maxPrice)
-      this.isFiltred = true
+      this.send()
     }
   },
   mounted() {
