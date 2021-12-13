@@ -1,4 +1,13 @@
 <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBos7Wp8jrFdVzh-X_CfDLlz9MzYVFAsAo"
+    async
+></script>
+
+
+<!-- google map markerclusterer-->
+<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
+</script>
 
 <template>
   <div id="app">

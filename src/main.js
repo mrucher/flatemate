@@ -9,6 +9,39 @@ import App from './App.vue'
 import AddApartment from "@/components/AddApartment";
 import LandlordApartments from "@/components/LandlordApartments";
 
+import * as VueGoogleMaps from 'vue2-google-maps'
+import Geocoder from "@pderas/vue2-geocoder";
+
+Vue.use(Geocoder, {
+    defaultCountryCode: null, // e.g. 'CA'
+    defaultLanguage:    null, // e.g. 'en'
+    defaultMode:        'address', // or 'lat-lng'
+    googleMapsApiKey:   'AIzaSyBos7Wp8jrFdVzh-X_CfDLlz9MzYVFAsAo'
+});
+
+Vue.use(VueGoogleMaps, {
+
+    load: {
+
+        key: 'AIzaSyBos7Wp8jrFdVzh-X_CfDLlz9MzYVFAsAo',
+
+        libraries: 'places',
+
+    }
+
+});
+
+// Vue.$geocoder.setDefaultMode('address');      // this is default
+// var addressObj = {
+//     address_line_1: '1600 Amphitheatre Parkway',
+//     address_line_2: '',
+//     city:           'Mountain View',
+//     state:          'CA',               // province also valid
+//     zip_code:       '94043',            // postal_code also valid
+//     country:        'United States'
+// }
+// Vue.$geocoder.send(addressObj, response => { console.log(response) });
+
 Vue.use(Router)
 
 Vue.config.productionTip = false
@@ -77,8 +110,3 @@ new Vue({
     render: h => h(App)
 }).$mount('#app')
 
-
-
-//   new Vue({
-//   render: h => h(App),
-// }).$mount('#app')

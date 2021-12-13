@@ -1,3 +1,4 @@
+
 function getLandlords(context, user) {
     // console.log(user.landlords)
     for (let index = 0; index < user.landlords.length; ++index) {
@@ -222,4 +223,13 @@ export function getRenters(context) {
             // console.log(that.users[0].landlords[0].id)
         }
     };
+}
+
+export function deleteAparts(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", 'http://localhost:8080/apartment/' + id, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.send()
+
 }

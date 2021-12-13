@@ -25,7 +25,6 @@
             <li>Количество комнат: {{ apartment.roomsCount }}</li>
             <li>Количество жильцов: {{ apartment.lodgerCount }}</li>
             <li>Адрес: {{ apartment.address }}</li>
-            <li>Геопозиция: {{ apartment.location }}</li>
             <li>Цена: {{ apartment.price }}</li>
             <router-link :to="{path: '/apartment/' + apartment.id }">Обзор</router-link>
           </ul>
@@ -33,6 +32,10 @@
         </div>
       </div>
       <div v-if="isId">
+        <div v-if="login==='admin'">
+          <button v-on:click="deleteAparts">Удалить</button>
+        </div>
+        <GoogleMap :locationProp=locat />
         <ApartmentFeedback :id=id>
 
         </ApartmentFeedback>
@@ -47,10 +50,14 @@
 <script>
 import * as Utils from '../js/utils.js'
 import ApartmentFeedback from "@/components/ApartmentFeedback";
+import GoogleMap from './GoogleMap.vue'
 
 export default {
   name: "Apartment",
-  components: {ApartmentFeedback},
+  components: {
+    ApartmentFeedback,
+    GoogleMap
+  },
   props: {
     message: String,
   },
@@ -70,7 +77,8 @@ export default {
       apartments: [],
       login: undefined,
       id: undefined,
-      feedbacks: []
+      feedbacks: [],
+      locat: undefined //для передачи в карту
     }
   },
   methods: {
@@ -83,6 +91,9 @@ export default {
     },
     update: function () {
       this.isShow = !this.isShow;
+    },
+    deleteAparts: function (){
+      Utils.deleteAparts(this.id)
     },
     loadAparts: function () {
       if (this.maxPrice !== undefined && this.lodgers !== undefined && this.rooms != undefined) {
