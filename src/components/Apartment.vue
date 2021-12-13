@@ -26,21 +26,38 @@
             <li>Количество жильцов: {{ apartment.lodgerCount }}</li>
             <li>Адрес: {{ apartment.address }}</li>
             <li>Цена: {{ apartment.price }}</li>
-            <router-link :to="{path: '/apartment/' + apartment.id }">Обзор</router-link>
+            <button v-on:click="viewApart(apartment.id)">Обзор</button>
+<!--            <router-link :to="{path: '/apartment/' + apartment.id }">Обзор</router-link>-->
           </ul>
 
         </div>
       </div>
-      <div v-if="isId">
-        <div v-if="login==='admin'">
-          <button v-on:click="deleteAparts">Удалить</button>
-        </div>
-        <GoogleMap :locationProp=locat />
-        <ApartmentFeedback :id=id>
+<!--      <div v-if="isId">-->
 
-        </ApartmentFeedback>
-        <router-link :to="{path: '/landlord/' + login}">Назад</router-link>
-      </div>
+<!--        <GoogleMap :locationProp=locat />-->
+<!--        <ApartmentFeedback :id=id>-->
+
+<!--        </ApartmentFeedback>-->
+<!--        <router-link :to="{path: '/landlord/' + login}">Назад</router-link>-->
+<!--      </div>-->
+    </div>
+    <div v-if="isView">
+      <ul>
+        <li>ID {{ viewApartment.id }}</li>
+        <li>Количество комнат: {{ viewApartment.roomsCount }}</li>
+        <li>Количество жильцов: {{ viewApartment.lodgerCount }}</li>
+        <li>Адрес: {{ viewApartment.address }}</li>
+        <li>Цена: {{ viewApartment.price }}</li>
+        <div v-if="login==='admin'">
+          <button v-on:click="deleteAparts(viewApartment.id)">Удалить</button>
+        </div>
+      </ul>
+      <ApartmentFeedback :id=id>
+
+      </ApartmentFeedback>
+      <button v-on:click="closeApart">Назад</button>
+      <GoogleMap :locationProp=viewApartment.location />
+
     </div>
 
 
@@ -65,6 +82,7 @@ export default {
     return {
       isNotFullData: false,
       isShow: true,
+      isView: false,
       roomsCount: undefined,
       lodgerCount: undefined,
       address: undefined,
@@ -75,6 +93,9 @@ export default {
       lodgers: undefined,
       isId: Boolean,
       apartments: [],
+      apartmentsTmp: [],
+      users: [],
+      viewApartment: undefined,
       login: undefined,
       id: undefined,
       feedbacks: [],
@@ -82,6 +103,21 @@ export default {
     }
   },
   methods: {
+    viewApart: function (id) {
+      this.isView = true
+      this.apartmentsTmp = this.apartments
+      // this.viewApart = this.apartments.filter(this.apartments.id === id)
+      this.viewApartment = this.apartments.find(function(item) {
+        return item.id === id
+      });
+      this.apartments = []
+    },
+    closeApart: function () {
+      this.isView = false
+      this.apartments = this.apartmentsTmp
+      this.viewApartment = undefined
+      this.apartmentsTmp = []
+    },
     getApartments: function () {
       // console.log(this.$route.params.id)
       Utils.getApartments(this, this.$route.params.id)
@@ -92,8 +128,8 @@ export default {
     update: function () {
       this.isShow = !this.isShow;
     },
-    deleteAparts: function (){
-      Utils.deleteAparts(this.id)
+    deleteAparts: function (id){
+      Utils.deleteAparts(id)
     },
     loadAparts: function () {
       if (this.maxPrice !== undefined && this.lodgers !== undefined && this.rooms != undefined) {
@@ -106,33 +142,17 @@ export default {
 
   },
   mounted() {
-    this.isId = this.$route.params.id !== undefined
+    // this.isId = this.$route.params.id !== undefined
     // this.getApartments()
-    this.login = sessionStorage.getItem("login")
-    if (this.isId) {
+    this.login = this.$route.params.login
+    // console.log(this.login)
+    if (this.login !== undefined) {
 
       // this.getFeedbacks()
-      this.getApartments()
-      this.id = this.$route.params.id
+      Utils.getUserByLogin(this, this.login, true )
       this.isShow = false
     }
   },
-  beforeRouteLeave(to, from, next) {
-    this.apartments = []
-    next()
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.getApartments()
-    next()
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.apartments = [];
-      vm.isId = vm.$route.params.id !== undefined
-      console.log(vm.isId)
-    })
-  }
-
 }
 </script>
 

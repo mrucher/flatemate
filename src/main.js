@@ -58,9 +58,8 @@ const routes = [
         props: {message: 'Квартиры:'},
         children: [
             {
-                path: '/apartment/:id',
+                path: '/apartment/:login',
                 component: Apartment,
-                props: {message: 'Квартира:'},
             }
 
         ]

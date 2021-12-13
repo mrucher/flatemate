@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      <h2>Search and add a pin</h2>
       <GmapAutocomplete
 
           @place_changed='setPlace'
@@ -32,8 +31,6 @@
 <!--        @click="panToMarker"-->
 
     </GmapMap>
-    <p>Selected Position: {{ marker.position }}</p>
-    <p>Adress: {{address}}</p>
   </div>
 </template>
 <script>
@@ -65,12 +62,17 @@ export default {
 
     }
     else {
-      this.getAdress(this.locationProp)
+
       console.log(this.locationProp)
       this.marker.position = {
-        lat: this.locationProp.lat(),
-        lng: this.locationProp.lng()
+        lat: this.locationProp.x,
+        lng: this.locationProp.y
       }
+      this.getAdress(this.marker.position)
+      this.center = {
+        lat: this.marker.position.lat,
+        lng: this.marker.position.lng
+      };
       // this.marker.position = this.locationProp
     }
 

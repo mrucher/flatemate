@@ -50,7 +50,6 @@ export default {
 
   },
   mounted() {
-    console.log(this.$route.params.login)
     this.getLandlords()
   },
 }

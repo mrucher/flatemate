@@ -13,7 +13,7 @@
         </ul>
         <ul class="nav">
           <li><router-link to="/addApartment">Добавить квартиру</router-link></li>
-          <li><router-link :to="{path: '/landlord/' + login }">Мои квартиры</router-link></li>
+          <li><router-link :to="{path: '/apartment/' + login }">Мои квартиры</router-link></li>
           <li><router-link :to="{path: '/renter/' + login }">Хочу быть в списке ищущих квартиру</router-link></li>
         </ul>
 
