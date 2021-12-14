@@ -10,6 +10,8 @@
     <br>
     <input v-model="price" placeholder="Цена">
     <br>
+    <input type="file" @change="encodeImageFileAsURL" />
+    <br>
 <!--    <GoogleMap @updateParent="onUpdateAddress"/>-->
     <GoogleMap />
     <button v-on:click="send">Отправить</button>
@@ -37,6 +39,8 @@ export default {
       price: undefined,
       users: [],
       coords: {},
+      img: undefined,
+      imgType:undefined,
       locat: undefined
     }
   },
@@ -48,6 +52,7 @@ export default {
     send: function (){
       if (this.roomsCount !== undefined && this.lodgerCount !== undefined
           && this.address !== undefined && this.price !== undefined) {
+        alert(this.img)
         let apart = {
           roomsCount: Number(this.roomsCount),
           lodgerCount: Number(this.lodgerCount),
@@ -57,7 +62,12 @@ export default {
           location: {
             x: this.locat.lat,
             y: this.locat.lng
-          }
+          },
+          photos: [
+            {
+              photo: this.img
+            }
+          ]
           // location: this.location
         }
         let json = JSON.stringify(apart);
@@ -70,6 +80,27 @@ export default {
       } else {
         alert("Введены не все данные")
       }
+    },
+    encodeImageFileAsURL: function () {
+      let element = event.target
+      var file = element.files[0];
+      var reader = new FileReader();
+      let that = this
+      reader.onloadend = function() {
+        // console.log('RESULT', reader.result)
+        let res = reader.result.replace(/^data:image\/(png|jpg|gif);base64,/, "")
+        let regexp = /(png|jpg|gif)/;
+        let tmp = regexp.exec(reader.result)
+        that.img = res
+        that.imgType = tmp
+        console.log(tmp[0])
+        console.log(this.img)
+        // console.log(res.replace(/^data:image\/(png|jpg|gif);base64,/, "") )
+        // var image = new Image();
+        // image.src = 'data:image/gif;base64,'+res;
+        // document.body.appendChild(image);
+      }
+      reader.readAsDataURL(file);
     }
   },
   onUpdateAddress: function () {

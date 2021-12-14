@@ -48,6 +48,7 @@
         <li>Количество жильцов: {{ viewApartment.lodgerCount }}</li>
         <li>Адрес: {{ viewApartment.address }}</li>
         <li>Цена: {{ viewApartment.price }}</li>
+        <img v-bind:src="'data:image/gif;base64,' + viewApartment.photos[0].photo" alt="">
         <div v-if="login==='admin'">
           <button v-on:click="deleteAparts(viewApartment.id)">Удалить</button>
         </div>
