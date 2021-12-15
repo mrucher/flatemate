@@ -4,11 +4,10 @@
       <div>
         <h4>Отзывы на квартиру:</h4>
         <div v-for="feedback in feedbacks" v-bind:key="feedback.id">
-          <ul>
-            <li>ID {{ feedback.id }}</li>
-            <li>Отзыв: {{ feedback.feedback }}</li>
-            <li>Рейтинг: {{ feedback.value }}</li>
-          </ul>
+          <b-list-group>
+            <b-list-group-item>Отзыв: {{ feedback.feedback }}</b-list-group-item>
+            <b-list-group-item>Рейтинг: {{ feedback.value }}</b-list-group-item>
+          </b-list-group>
         </div>
       </div>
     </div>
@@ -38,13 +37,12 @@ export default {
       console.log(this.value);
     },
     getFeedbacks: function () {
-      Utils.getFeedbacks(this, this.$route.params.id)
+      Utils.getFeedbacks(this, this.id)
     },
   },
   mounted() {
     // console.log("я здесь")
     this.getFeedbacks()
-    console.log(this.id)
   },
 }
 </script>

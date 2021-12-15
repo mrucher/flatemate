@@ -11,27 +11,23 @@
 
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Flatmate"/>
     <div v-if="isLogin">
-      <ul class="nav">
-        <li>
-          <router-link to="/apartment">Перейти к Apartment</router-link>
-        </li>
-        <li>
-          <router-link to="/user">Перейти к User</router-link>
-        </li>
-        <li>
-          <router-link to="/renter">Перейти к Renter</router-link>
-        </li>
+      <b-navbar href="#" toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#">Flatmate</b-navbar-brand>
+        <b-navbar-nav>
+          <b-nav-item active href="#/apartment">Apartments</b-nav-item>
+          <b-nav-item active href="#/user">User</b-nav-item>
+          <b-nav-item active href="#/renter">Renters</b-nav-item>
 
-      </ul>
+        </b-navbar-nav>
+
+      </b-navbar>
       <router-view></router-view>
     </div>
     <div v-if="isChoose">
-      <button v-on:click="chooseSignin">Авторизоваться</button>
+      <b-button v-on:click="chooseSignin">Авторизоваться</b-button>
       <br>
-      <button v-on:click="chooseSignup">Регистрация</button>
+      <b-button v-on:click="chooseSignup">Регистрация</b-button>
       <br>
     </div>
     <div v-if="isSignin">
@@ -39,7 +35,7 @@
       <br>
       <input v-model="password" placeholder="Пароль">
       <br>
-      <button v-on:click="signin">Авторизоваться</button>
+      <b-button v-on:click="signin">Авторизоваться</b-button>
     </div>
     <div v-if="isSignup">
       <span>Введите данные</span>
@@ -54,7 +50,7 @@
       <br>
       <input v-model="email" placeholder="Почта">
       <br>
-      <button v-on:click="signup">Отправить</button>
+      <b-button v-on:click="signup">Отправить</b-button>
       <br>
       <div v-if="isNotFullData">
         Введены не все данные
@@ -94,11 +90,11 @@ export default {
     // Foo
   },
   methods: {
-    chooseSignin:  function() {
+    chooseSignin: function () {
       this.isChoose = false;
       this.isSignin = true;
     },
-    signin: function() {
+    signin: function () {
       var that = this;
       let token = undefined
       let tmp = {
@@ -112,7 +108,7 @@ export default {
       xhr.open("POST", 'http://localhost:8080/auth/signin', true)
       xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
       xhr.send(json)
-      xhr.onload = function() {
+      xhr.onload = function () {
         if (xhr.status !== 200) {
           alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
         } else {
@@ -126,13 +122,12 @@ export default {
       };
 
 
-
     },
-    chooseSignup:  function() {
+    chooseSignup: function () {
       this.isChoose = false;
       this.isSignup = true;
     },
-    signup: async function() {
+    signup: async function () {
       var that = this;
       if (this.login !== undefined && this.password !== undefined
           && this.city !== undefined && this.email !== undefined && this.firstname !== undefined) {
@@ -166,9 +161,8 @@ export default {
       alert(sessionStorage.getItem("token"))
       if (sessionStorage.getItem("token") !== undefined) {
         console.log(sessionStorage.getItem("token"))
-          this.isLogin = true;
-      }
-      else {
+        this.isLogin = true;
+      } else {
         console.log(sessionStorage.getItem("token"))
         this.isChoose = true;
       }
@@ -176,13 +170,12 @@ export default {
 
 
   },
-  mounted(){
+  mounted() {
     if (sessionStorage.getItem("token") !== null) {
       this.isLogin = true;
       this.login = sessionStorage.getItem("login")
       console.log(sessionStorage.getItem("token"))
-    }
-    else {
+    } else {
       this.isChoose = true;
     }
   }
@@ -198,11 +191,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.content {
+  margin:0 25% 0 25%;
+  width:50%;
 }
 
-ul.nav > li {
-  display: inline;
-  margin-right: 10px;
+@media (max-width: 1200px) {
+  .content {
+    margin:0 0 0 0;
+    width:100%;
+  }
 }
+
+
 </style>

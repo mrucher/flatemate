@@ -1,21 +1,20 @@
 <template>
   <div>
     <h3>Профиль</h3>
-    <div>
+    <div class="content">
       <div v-for="user in users" v-bind:key="user.id">
-        <ul>
-          <li>ID: {{ user.id }} </li>
-          <li>Логин: {{ user.login }}</li>
-          <li>Имя: {{user.firstname}}</li>
-          <li>Город: {{user.city}}</li>
-          <li>Почта: {{user.email}}</li>
+        <b-list-group>
+          <b-list-group-item>Логин: {{ user.login }}</b-list-group-item>
+          <b-list-group-item>Имя: {{user.firstname}}</b-list-group-item>
+          <b-list-group-item>Город: {{user.city}}</b-list-group-item>
+          <b-list-group-item>Почта: {{user.email}}</b-list-group-item>
 
-        </ul>
-        <ul class="nav">
-          <li><router-link to="/addApartment">Добавить квартиру</router-link></li>
-          <li><router-link :to="{path: '/apartment/' + login }">Мои квартиры</router-link></li>
-          <li><router-link :to="{path: '/renter/' + login }">Хочу быть в списке ищущих квартиру</router-link></li>
-        </ul>
+        </b-list-group>
+        <b-nav align="center">
+          <b-nav-item active href="#/addApartment">Добавить квартиру</b-nav-item>
+          <b-nav-item active :to="{path: '/apartment/' + login }">Мои квартиры</b-nav-item>
+          <b-nav-item active :to="{path: '/renter/' + login }">Хочу быть в списке ищущих квартиру</b-nav-item>
+        </b-nav>
 
       </div>
     </div>

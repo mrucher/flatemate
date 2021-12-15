@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on:click="update">Обновить</button>
+    <b-button v-on:click="update">Обновить</b-button>
     <div v-if="isShow">
       {{ message }}
     </div>
@@ -11,7 +11,7 @@
       <br>
       <input v-model="feedback" placeholder="Отзыв">
       <br>
-      <button v-on:click="send">Отправить</button>
+      <b-button v-on:click="send">Отправить</b-button>
     </div>
   </div>
 </template>

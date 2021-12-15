@@ -1,20 +1,19 @@
 <template>
   <div>
     <div v-if="isAdd">
-      <span>Введите данные</span>
+      <h4>Введите данные</h4>
       <br>
-      <input v-model="maxPrice" placeholder="Максимальная цена">
+      <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
       <br>
-      <button v-on:click="send">Отправить</button>
+      <b-button v-on:click="send">Отправить</b-button>
     </div>
     <div v-else>
       <div>
         <div v-for="renter in renters" v-bind:key="renter.id">
-          <ul>
-            <li>ID: {{renter.id}}</li>
-            <li>Пользователь: {{renter.user}}</li>
-            <li>Максимальная цена: {{renter.max_price}}</li>
-          </ul>
+          <b-list-group>
+            <b-list-group-item>Пользователь: {{loginTmp}}</b-list-group-item>
+            <b-list-group-item>Максимальная цена: {{renter.max_price}}</b-list-group-item>
+          </b-list-group>
 
         </div>
       </div>
@@ -40,10 +39,12 @@ export default {
       users: [],
       apartments: [],
       renters: [],
+      rentersLogins: [],
       isFiltred: false,
       rooms: undefined,
       lodgers: undefined,
       login: undefined,
+      loginTmp: undefined,
       isAdd: undefined
     }
   },
@@ -68,8 +69,11 @@ export default {
   mounted() {
     this.isAdd = this.$route.params.login !== undefined
     this.login = sessionStorage.getItem("login")
+    if (this.isAdd) {
+      Utils.getUserByLogin(this, this.login)
+    }
     this.getRenters()
-    console.log(this.isAdd)
+    console.log(this.rentersLogins)
   }
 }
 </script>

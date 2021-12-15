@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div>
+    <div v-if="locationProp === undefined">
       <GmapAutocomplete
 
           @place_changed='setPlace'
 
       />
-      <button @click='addMarker'>Add</button>
+      <b-button @click='addMarker'>Выбрать</b-button>
     </div>
     <br>
+    <div v-if="locationProp !== undefined">
+      <h4>Положение на карте</h4>
+    </div>
     <GmapMap
         :center='center'
         :zoom='12'
@@ -16,19 +19,19 @@
         @click="handleMapClick"
         style='width:100%;  height: 400px;'>
 
-    <GmapMarker
-        :position="marker.position"
-        :clickable="true"
-        :draggable="true"
-        @drag="handleMarkerDrag"
-        @click="panToMarker"/>
-<!--        :key="index"-->
-<!--        v-for="(m, index) in markers"-->
-<!--        :position="m.position"-->
-<!--        :clickable="true"-->
-<!--        :draggable="true"-->
-<!--        @drag="handleMarkerDrag"-->
-<!--        @click="panToMarker"-->
+      <GmapMarker
+          :position="marker.position"
+          :clickable="true"
+          :draggable="true"
+          @drag="handleMarkerDrag"
+          @click="panToMarker"/>
+      <!--        :key="index"-->
+      <!--        v-for="(m, index) in markers"-->
+      <!--        :position="m.position"-->
+      <!--        :clickable="true"-->
+      <!--        :draggable="true"-->
+      <!--        @drag="handleMarkerDrag"-->
+      <!--        @click="panToMarker"-->
 
     </GmapMap>
   </div>
@@ -42,7 +45,7 @@ export default {
   computed: {
     google: gmapApi
   },
-  props:{
+  props: {
     locationProp: undefined
   },
   data() {
@@ -51,7 +54,7 @@ export default {
       markers: [],
       currentPlace: null,
       places: [],
-      marker: { position: { lat: 10, lng: 10 } },
+      marker: {position: {lat: 10, lng: 10}},
       address: undefined
 
     }
@@ -60,8 +63,7 @@ export default {
     if (this.locationProp === undefined) {
       this.geolocate();
 
-    }
-    else {
+    } else {
 
       console.log(this.locationProp)
       this.marker.position = {
@@ -90,7 +92,7 @@ export default {
           lat: this.marker.position.lat,
           lng: this.marker.position.lng
         }
-      }else {
+      } else {
         latLngObj = {
           lat: location.lat,
           lng: location.lng
@@ -133,12 +135,12 @@ export default {
       }
     },
     handleMapClick(e) {
-      this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+      this.marker.position = {lat: e.latLng.lat(), lng: e.latLng.lng()};
       this.getAdress();
       // console.log(e);
     },
     handleMarkerDrag(e) {
-      this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+      this.marker.position = {lat: e.latLng.lat(), lng: e.latLng.lng()};
       this.getAdress();
     },
     panToMarker() {

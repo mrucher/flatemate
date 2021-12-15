@@ -12,6 +12,13 @@ import LandlordApartments from "@/components/LandlordApartments";
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Geocoder from "@pderas/vue2-geocoder";
 
+import { BootstrapVue } from 'bootstrap-vue'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue)
+
 Vue.use(Geocoder, {
     defaultCountryCode: null, // e.g. 'CA'
     defaultLanguage:    null, // e.g. 'en'

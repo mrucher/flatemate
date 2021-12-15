@@ -216,8 +216,12 @@ export function getRenters(context) {
 
             let json = JSON.parse(xhr.response)
             for (let key in json) {
+                getUserById(that, json[key].user)
+                json[key]["login"] = that.loginTmp
                 that.renters.push(json[key])
+                console.log(that.renters)
             }
+
             // console.log(json)
             // console.log(that.users[0])
             // console.log(that.users[0].landlords[0].id)
@@ -232,4 +236,35 @@ export function deleteAparts(id) {
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
 
+}
+
+export function sendFeedback(context) {
+    var xhr = new XMLHttpRequest();
+    let json = {
+        value: context.selected,
+        feedback: context.feedbackText,
+        apartmentId: context.viewApartment.id
+    }
+    json = JSON.stringify(json)
+    xhr.open("POST", 'http://localhost:8080/apartment/feedback', true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.send(json)
+}
+
+export function getUserById(context, id) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", 'http://localhost:8080/user/' + id, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.send()
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+        } else {
+            console.log(JSON.parse(xhr.response))
+            context.loginTmp = JSON.parse(xhr.response).login
+        }
+    };
 }

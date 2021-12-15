@@ -1,28 +1,26 @@
 <template>
   <div id='AddApartment'>
-    <span>Введите данные</span>
-    <br>
-    <input v-model="roomsCount" placeholder="Количество комнат">
-    <br>
-    <input v-model="lodgerCount" placeholder="Количество жильцов">
-    <br>
-    <input v-model="address" placeholder="Адрес">
-    <br>
-    <input v-model="price" placeholder="Цена">
-    <br>
-    <input type="file" @change="encodeImageFileAsURL" />
-    <br>
-<!--    <GoogleMap @updateParent="onUpdateAddress"/>-->
-    <GoogleMap />
-    <button v-on:click="send">Отправить</button>
-    <br>
-    <router-link :to="{path: '/user/'}">Назад</router-link>
+    <div class="content">
+      <h4>Введите данные</h4>
+      <b-form-input v-model="roomsCount" placeholder="Количество комнат"></b-form-input>
+      <b-form-input v-model="lodgerCount" placeholder="Количество жильцов"></b-form-input>
+      <b-form-input v-model="address" placeholder="Адрес"></b-form-input>
+      <b-form-input v-model="price" placeholder="Цена"></b-form-input>
+      <b-form-file class="mt-3" plain
+
+          @change="encodeImageFileAsURL"> </b-form-file>
+      <br>
+      <br>
+
+      <!--    <GoogleMap @updateParent="onUpdateAddress"/>-->
+      <GoogleMap/>
+      <br>
+      <b-button v-on:click="send">Отправить</b-button>
+      <br>
+      <b-link :to="{path: '/user/'}">Назад</b-link>
+    </div>
   </div>
 </template>
-
-
-
-
 
 
 <script>
@@ -40,7 +38,7 @@ export default {
       users: [],
       coords: {},
       img: undefined,
-      imgType:undefined,
+      imgType: undefined,
       locat: undefined
     }
   },
@@ -49,7 +47,7 @@ export default {
   },
   methods: {
 
-    send: function (){
+    send: function () {
       if (this.roomsCount !== undefined && this.lodgerCount !== undefined
           && this.address !== undefined && this.price !== undefined) {
         alert(this.img)
@@ -86,7 +84,7 @@ export default {
       var file = element.files[0];
       var reader = new FileReader();
       let that = this
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         // console.log('RESULT', reader.result)
         let res = reader.result.replace(/^data:image\/(png|jpg|gif);base64,/, "")
         let regexp = /(png|jpg|gif)/;
@@ -115,7 +113,6 @@ export default {
   }
 }
 </script>
-
 
 
 <style scoped>
