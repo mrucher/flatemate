@@ -11,7 +11,7 @@
       <div>
         <div v-for="renter in renters" v-bind:key="renter.id">
           <b-list-group>
-            <b-list-group-item>Пользователь: {{loginTmp}}</b-list-group-item>
+            <b-list-group-item>Пользователь: {{renter.user}}</b-list-group-item>
             <b-list-group-item>Максимальная цена: {{renter.max_price}}</b-list-group-item>
           </b-list-group>
 
@@ -64,6 +64,7 @@ export default {
     },
     getRenters: function () {
       Utils.getRenters(this)
+
     }
   },
   mounted() {
@@ -72,9 +73,12 @@ export default {
     if (this.isAdd) {
       Utils.getUserByLogin(this, this.login)
     }
-    this.getRenters()
-    console.log(this.rentersLogins)
-  }
+    // let that = this
+    Utils.getRenters(this)
+    // this.$nextTick(function () {
+    //   Utils.getRentersLogins(that)
+    // })
+  },
 }
 </script>
 

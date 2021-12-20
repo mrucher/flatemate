@@ -7,7 +7,7 @@
         <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
         <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
         <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
-        <button v-on:click="loadAparts">Искать</button>
+        <b-button v-on:click="loadAparts">Искать</b-button>
       </div>
     </div>
     <div v-else>
@@ -19,7 +19,7 @@
       </div>
       <div class="content">
 
-        <div v-for="apartment in apartments" v-bind:key="apartment.id">
+        <div class="column" v-for="apartment in apartments" v-bind:key="apartment.id">
           <b-card>
           <b-list-group>
             <b-list-group-item>Количество комнат: {{ apartment.roomsCount }}</b-list-group-item>
@@ -44,7 +44,7 @@
 <!--        <router-link :to="{path: '/landlord/' + login}">Назад</router-link>-->
 <!--      </div>-->
     </div>
-    <div v-if="isView" class="content">
+    <div v-if="isView" class="content-view">
       <b-list-group>
         <b-list-group-item>Количество комнат: {{ viewApartment.roomsCount }}</b-list-group-item>
         <b-list-group-item>Количество жильцов: {{ viewApartment.lodgerCount }}</b-list-group-item>
@@ -68,7 +68,7 @@
 
       <b-button v-on:click="closeApart">Назад</b-button>
 
-      <div v-if="login==='admin'">
+      <div v-if="login==='admin' || login !== undefined">
         <b-button v-on:click="deleteAparts(viewApartment.id)">Удалить</b-button>
       </div>
 

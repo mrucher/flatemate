@@ -216,10 +216,9 @@ export function getRenters(context) {
 
             let json = JSON.parse(xhr.response)
             for (let key in json) {
-                getUserById(that, json[key].user)
-                json[key]["login"] = that.loginTmp
+
                 that.renters.push(json[key])
-                console.log(that.renters)
+                // console.log(that.renters)
             }
 
             // console.log(json)
@@ -252,7 +251,7 @@ export function sendFeedback(context) {
     xhr.send(json)
 }
 
-export function getUserById(context, id) {
+export function getUserById(context, id, i) {
     var xhr = new XMLHttpRequest();
 
     xhr.open("GET", 'http://localhost:8080/user/' + id, true)
@@ -263,8 +262,17 @@ export function getUserById(context, id) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
         } else {
-            console.log(JSON.parse(xhr.response))
-            context.loginTmp = JSON.parse(xhr.response).login
+            // console.log(JSON.parse(xhr.response))
+            // context.loginTmp = JSON.parse(xhr.response).login
+            alert(111)
+            console.log(context.renters[i])
+            context.renters[i]["login"] = JSON.parse(xhr.response).login
         }
     };
+}
+
+export function getRentersLogins(context) {
+    for (let i = 0; i < context.renters.length; i++) {
+        getUserById(context, this.renters[i].user, i)
+    }
 }

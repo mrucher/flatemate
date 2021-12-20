@@ -5,6 +5,7 @@
 ></script>
 
 
+
 <!-- google map markerclusterer-->
 <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
 </script>
@@ -24,16 +25,18 @@
       </b-navbar>
       <router-view></router-view>
     </div>
-    <div v-if="isChoose">
-      <b-button v-on:click="chooseSignin">Авторизоваться</b-button>
-      <br>
-      <b-button v-on:click="chooseSignup">Регистрация</b-button>
-      <br>
+    <div id = "auth">
+      <div v-if="isChoose">
+        <b-button v-on:click="chooseSignin">Авторизоваться</b-button>
+        <br>
+        <b-button v-on:click="chooseSignup">Регистрация</b-button>
+
+      </div>
     </div>
     <div v-if="isSignin">
       <input v-model="login" placeholder="Логин">
       <br>
-      <input v-model="password" placeholder="Пароль">
+      <input type="password" v-model="password" placeholder="Пароль">
       <br>
       <b-button v-on:click="signin">Авторизоваться</b-button>
     </div>
@@ -42,7 +45,7 @@
       <br>
       <input v-model="login" placeholder="Логин">
       <br>
-      <input v-model="password" placeholder="Пароль">
+      <input type="password" v-model="password" placeholder="Пароль">
       <br>
       <input v-model="firstname" placeholder="Имя">
       <br>
@@ -185,6 +188,7 @@ export default {
 <!--<script src="./main.js"></script>-->
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -192,15 +196,53 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 .content {
-  margin:0 25% 0 25%;
+  /*margin: 0 25% 0 25%;*/
+  /*width: 50%;*/
+  box-sizing: border-box;
+  display: block;
+}
+
+.content-view {
+  margin: 0 25% 0 25%;
+  width: 50%;
+}
+
+.column {
+  width: 30%;
+  display: inline-block;
+
+  /*justify-content: flex-start;*/
+}
+.card {
+  height: 300px;
+}
+#auth {
+  margin:20% 25% 0 25%;
   width:50%;
+
+}
+
+button {
+  width: 200px;
+
+
+}
+
+.btn {
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.form-control {
+  margin-top: 15px;
 }
 
 @media (max-width: 1200px) {
   .content {
-    margin:0 0 0 0;
-    width:100%;
+    margin: 0 0 0 0;
+    width: 100%;
   }
 }
 
