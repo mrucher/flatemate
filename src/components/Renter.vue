@@ -8,11 +8,11 @@
       <b-button v-on:click="send">Отправить</b-button>
     </div>
     <div v-else>
-      <div>
-        <div v-for="renter in renters" v-bind:key="renter.id">
+      <div class="content">
+        <div class="column" v-for="renter in renters" v-bind:key="renter.id">
           <b-list-group>
-            <b-list-group-item>Пользователь: {{renter.user}}</b-list-group-item>
-            <b-list-group-item>Максимальная цена: {{renter.max_price}}</b-list-group-item>
+            <b-list-group-item>Пользователь: {{renter.login}}</b-list-group-item>
+            <b-list-group-item>Максимальная цена: {{renter.maxPrice}}</b-list-group-item>
           </b-list-group>
 
         </div>
@@ -54,8 +54,9 @@ export default {
     },
     send: function () {
       let renter = {
-        max_price: this.maxPrice,
-        user: this.users[0].id,
+        maxPrice: this.maxPrice,
+        userId: this.users[0].id,
+        login: this.login,
         active: true
       }
       // console.log(renter)
