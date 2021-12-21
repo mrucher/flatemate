@@ -58,6 +58,7 @@
         <b-list-group-item>Количество жильцов: {{ viewApartment.lodgerCount }}</b-list-group-item>
         <b-list-group-item>Адрес: {{ viewApartment.address }}</b-list-group-item>
         <b-list-group-item>Цена: {{ viewApartment.price }}</b-list-group-item>
+        <b-list-group-item>Цена после вашего заселения: {{ futurePrice }}</b-list-group-item>
         <br>
         <b-img v-bind:src="'data:image/gif;base64,' + viewApartment.photos[0].photo" alt=""></b-img>
 
@@ -75,6 +76,10 @@
       <b-button v-on:click="addFeedback">Добавить отзыв</b-button>
 
       <b-button v-on:click="closeApart">Назад</b-button>
+
+      <br>
+
+      <b-button v-on:click="chooseApart">Хочу здесь жить</b-button>
 
       <div v-if="currentLogin==='admin' || $route.params.login !== undefined">
         <b-button v-on:click="deleteAparts(viewApartment.id)">Удалить</b-button>
@@ -100,6 +105,11 @@ export default {
   },
   props: {
     message: String,
+  },
+  computed: {
+    futurePrice: function () {
+      return this.viewApartment.price / (2 + this.viewApartment.renters.length)
+    }
   },
   data() {
     return {
@@ -202,7 +212,31 @@ export default {
         Utils.sendFeedback(this)
       }
 
-    }
+    },
+    chooseApart: function () {
+      // console.log(this.users[0].renters[0])
+      let json = this.viewApartment
+      let flag = true
+      for (let i = 0; i < json.renters.length; i++) {
+        if (json.renters[i].login == this.users[0].renters[0].login) {
+          flag = false
+        }
+      }
+      if (flag) {
+        json.renters.push(this.users[0].renters[0])
+        json = JSON.stringify(json)
+        Utils.updateApartRenter(this, json)
+      } else {
+        alert("Вы уже здесь живете")
+      }
+
+      // console.log(json.renters)
+      // json.renters.push(this.users[0].renters[0])
+      // console.log(json.renters)
+      // console.log(json.asd)
+      // json = JSON.stringify(json)
+      // json['asd'] = { x: 1}
+    },
 
   },
   mounted() {
@@ -218,6 +252,7 @@ export default {
       this.isShow = false
     } else {
       Utils.getApartments(this, this.id)
+      Utils.getUserByLogin(this, this.currentLogin, true )
       // console.log(this.apartments)
       this.isShow = false
     }

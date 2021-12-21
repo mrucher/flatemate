@@ -276,3 +276,11 @@ export function getRentersLogins(context) {
         getUserById(context, this.renters[i].user, i)
     }
 }
+
+export function updateApartRenter(context, json) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'http://localhost:8080/apartment/', true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.send(json)
+}
