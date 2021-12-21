@@ -4,7 +4,7 @@
       <div class="content">
         <h4>Введите данные</h4>
         <br>
-        <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
+        <b-form-input v-model="maxPrice" @ placeholder="Максимальная цена" ></b-form-input>
         <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
         <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
         <b-button v-on:click="loadAparts">Искать</b-button>
@@ -16,6 +16,14 @@
       </div>
       <div v-else>
         <h3>Квартиры:</h3>
+      </div>
+      <div>
+        <h4>Введите данные</h4>
+        <br>
+        <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
+        <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
+        <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
+        <b-button v-on:click="filterAparts">Фильтровать</b-button>
       </div>
       <div class="content">
 
@@ -68,7 +76,7 @@
 
       <b-button v-on:click="closeApart">Назад</b-button>
 
-      <div v-if="login==='admin' || login !== undefined">
+      <div v-if="currentLogin==='admin' || $route.params.login !== undefined">
         <b-button v-on:click="deleteAparts(viewApartment.id)">Удалить</b-button>
       </div>
 
@@ -112,6 +120,7 @@ export default {
       users: [],
       viewApartment: undefined,
       login: undefined,
+      currentLogin: undefined,
       id: undefined,
       feedbacks: [],
       isAddFeedback: false,
@@ -165,6 +174,26 @@ export default {
         alert("Введены не все данные")
       }
     },
+    filterAparts: function () {
+      let that = this
+      if (this.maxPrice !== undefined) {
+        this.apartments = this.apartments.filter(function (apart) {
+          return apart.price > that.maxPrice;
+        });
+      }
+
+      if (this.lodgers !== undefined) {
+        this.apartments = this.apartments.filter(function (apart) {
+          return apart.lodgerCount == that.lodgers;
+        });
+      }
+
+      if (this.rooms !== undefined) {
+        this.apartments = this.apartments.filter(function (apart) {
+          return apart.roomsCount == that.rooms;
+        });
+      }
+    },
     addFeedback: function () {
       if (this.isAddFeedback === false) {
         this.isAddFeedback = true
@@ -180,11 +209,16 @@ export default {
     // this.isId = this.$route.params.id !== undefined
     // this.getApartments()
     this.login = this.$route.params.login
+    this.currentLogin = sessionStorage.getItem("login")
     // console.log(this.login)
     if (this.login !== undefined) {
 
       // this.getFeedbacks()
       Utils.getUserByLogin(this, this.login, true )
+      this.isShow = false
+    } else {
+      Utils.getApartments(this, this.id)
+      // console.log(this.apartments)
       this.isShow = false
     }
   },

@@ -139,7 +139,7 @@ export function getFeedbacks(context, id) {
     var that = context
     var xhr = new XMLHttpRequest();
     let json
-    xhr.open("GET", 'http://localhost:8080/apartment/feedback?apart_id=' + id, true)
+    xhr.open("GET", 'http://localhost:8080/apartment/feedback?apartId=' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
