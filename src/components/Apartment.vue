@@ -4,7 +4,9 @@
       <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
       <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
       <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
+      <b-form-input v-model="city" placeholder="Город"></b-form-input>
       <b-button v-on:click="filterAparts">Фильтровать</b-button>
+      <b-button v-on:click="resetFilterAparts">Сбросить</b-button>
     </div>
     <div class="aparts">
       <div v-if="isShow">
@@ -131,6 +133,7 @@ export default {
       price: undefined,
       location: undefined,
       maxPrice: undefined,
+      city: undefined,
       rooms: undefined,
       lodgers: undefined,
       isId: Boolean,
@@ -194,10 +197,11 @@ export default {
       }
     },
     filterAparts: function () {
+      this.apartmentsTmp = this.apartments
       let that = this
       if (this.maxPrice !== undefined) {
         this.apartments = this.apartments.filter(function (apart) {
-          return apart.price > that.maxPrice;
+          return apart.price <= that.maxPrice;
         });
       }
 
@@ -212,6 +216,16 @@ export default {
           return apart.roomsCount == that.rooms;
         });
       }
+
+      if (this.city !== undefined) {
+        this.apartments = this.apartments.filter(function (apart) {
+          let tmp = apart.address.split(',')
+          return tmp[tmp.length-3].trim() === that.city;
+        });
+      }
+    },
+    resetFilterAparts: function () {
+      this.apartments = this.apartmentsTmp
     },
     addFeedback: function () {
       if (this.isAddFeedback === false) {
