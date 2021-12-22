@@ -108,7 +108,7 @@ export default {
 
       var xhr = new XMLHttpRequest();
 
-      xhr.open("POST", 'http://localhost:8080/auth/signin', true)
+      xhr.open("POST", 'http://localhost:8081/auth/signin', true)
       xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
       xhr.send(json)
       xhr.onload = function () {
@@ -146,7 +146,7 @@ export default {
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", 'http://localhost:8080/auth/signup', true)
+        xhr.open("POST", 'http://localhost:8081/auth/signup', true)
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
         xhr.send(json)
         xhr.onload = function () {

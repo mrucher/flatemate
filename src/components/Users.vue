@@ -80,7 +80,7 @@ export default {
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", 'http://localhost:8080/user', true)
+        xhr.open("POST", 'http://localhost:8081/user', true)
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
         xhr.send(json);

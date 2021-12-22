@@ -19,7 +19,7 @@ export function getUserByLogin(context, login, isLandlords = false) {
     var that = context
     var xhr = new XMLHttpRequest();
     let json
-    xhr.open("GET", 'http://localhost:8080/user?login=' + login, true)
+    xhr.open("GET", 'http://localhost:8081/user?login=' + login, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
@@ -47,7 +47,7 @@ export function getApartments(context, id) {
     let isId = id !== undefined
     var xhr = new XMLHttpRequest();
 
-    let url = 'http://localhost:8080/apartment'
+    let url = 'http://localhost:8081/apartment'
     if (isId) {
         url += '/' + id
     }
@@ -77,7 +77,7 @@ export function getApartmentsFilter(context, rooms, lodgers, maxPrice) {
     var that = context
     var xhr = new XMLHttpRequest();
 
-    let url = 'http://localhost:8080/apartment?min=0&max=' + maxPrice + '&count_room=' + rooms + '&count_lodger=' + lodgers
+    let url = 'http://localhost:8081/apartment?min=0&max=' + maxPrice + '&count_room=' + rooms + '&count_lodger=' + lodgers
 
 
     xhr.open("GET", url, true)
@@ -103,7 +103,7 @@ export function postApartment(context, apart) {
     var xhr = new XMLHttpRequest();
     // var that = context
     let apartment_id
-    xhr.open("POST", 'http://localhost:8080/apartment', true)
+    xhr.open("POST", 'http://localhost:8081/apartment', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send(apart);
@@ -123,7 +123,7 @@ export function postApartment(context, apart) {
             // console.log(json)
 
             var xhr2 = new XMLHttpRequest();
-            xhr2.open("POST", 'http://localhost:8080/landlord', true)
+            xhr2.open("POST", 'http://localhost:8081/landlord', true)
             xhr2.setRequestHeader('Content-type', 'application/json; charset=utf-8')
             xhr2.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
             xhr2.send(json);
@@ -139,7 +139,7 @@ export function getFeedbacks(context, id) {
     var that = context
     var xhr = new XMLHttpRequest();
     let json
-    xhr.open("GET", 'http://localhost:8080/apartment/feedback?apartId=' + id, true)
+    xhr.open("GET", 'http://localhost:8081/apartment/feedback?apartId=' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
@@ -189,7 +189,7 @@ export function postPenter(context, renter) {
     }
     // console.log(renter)
 
-    xhr.open("POST", 'http://localhost:8080/renter', true)
+    xhr.open("POST", 'http://localhost:8081/renter', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send(renter);
@@ -205,7 +205,7 @@ export function postPenter(context, renter) {
 export function getRenters(context) {
     var that = context
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", 'http://localhost:8080/renter', true)
+    xhr.open("GET", 'http://localhost:8081/renter', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
@@ -230,7 +230,7 @@ export function getRenters(context) {
 
 export function deleteAparts(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", 'http://localhost:8080/apartment/' + id, true)
+    xhr.open("DELETE", 'http://localhost:8081/apartment/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
@@ -245,7 +245,7 @@ export function sendFeedback(context) {
         apartmentId: context.viewApartment.id
     }
     json = JSON.stringify(json)
-    xhr.open("POST", 'http://localhost:8080/apartment/feedback', true)
+    xhr.open("POST", 'http://localhost:8081/apartment/feedback', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send(json)
@@ -254,7 +254,7 @@ export function sendFeedback(context) {
 export function getUserById(context, id, i) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open("GET", 'http://localhost:8080/user/' + id, true)
+    xhr.open("GET", 'http://localhost:8081/user/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send()
@@ -279,7 +279,7 @@ export function getRentersLogins(context) {
 
 export function updateApartRenter(context, json) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'http://localhost:8080/apartment/', true)
+    xhr.open("POST", 'http://localhost:8081/apartment/', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send(json)
