@@ -162,6 +162,37 @@ export function getFeedbacks(context, id) {
     };
 }
 
+export function getRenterFeedbacks(context, id) {
+    if (id === undefined) {
+        return
+    }
+    var that = context
+    var xhr = new XMLHttpRequest();
+    let json
+    xhr.open("GET", 'http://localhost:8081/renter/feedback?renterId=' + id, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.send()
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+            json = null
+        } else {
+            json = JSON.parse(xhr.response)
+            for (let key in json) {
+                that.feedbacks.push(json[key])
+            }
+            // return json
+            // that.feedbacks.push(json)
+            // console.log(json)
+            // console.log(that.feedbacks)
+            // console.log(that.users[0])
+            // console.log(that.users[0].landlords[0].id)
+        }
+    };
+}
+
+
 export function postPenter(context, renter) {
     var xhr = new XMLHttpRequest();
     let user = context.users[0]
@@ -246,6 +277,20 @@ export function sendFeedback(context) {
     }
     json = JSON.stringify(json)
     xhr.open("POST", 'http://localhost:8081/apartment/feedback', true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.send(json)
+}
+
+export function sendRenterFeedback(context) {
+    var xhr = new XMLHttpRequest();
+    let json = {
+        value: context.selected,
+        feedback: context.feedbackText,
+        renterId: context.viewRenter.id
+    }
+    json = JSON.stringify(json)
+    xhr.open("POST", 'http://localhost:8081/renter/feedback', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
     xhr.send(json)

@@ -1,30 +1,31 @@
 <template>
   <div>
-    <b-button v-on:click="update">Обновить</b-button>
     <div v-if="isShow">
-      {{ message }}
-    </div>
-    <div v-else>
-      <span>Введите данные</span>
-      <br>
-      <input v-model="value" placeholder="Оценка">
-      <br>
-      <input v-model="feedback" placeholder="Отзыв">
-      <br>
-      <b-button v-on:click="send">Отправить</b-button>
+      <div>
+        <h4>Отзывы на нанимателя:</h4>
+        <div v-for="feedback in feedbacks" v-bind:key="feedback.id">
+          <b-list-group>
+            <b-list-group-item>Отзыв: {{ feedback.feedback }}</b-list-group-item>
+            <b-list-group-item>Рейтинг: {{ feedback.value }}</b-list-group-item>
+          </b-list-group>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import * as Utils from "@/js/utils";
+
 export default {
   name: "RenterFeedback",
   props: {
-    message: String
+    id: String
   },
   data() {
     return {
       isShow: true,
+      feedbacks: []
     }
   },
   methods: {
@@ -33,8 +34,14 @@ export default {
     },
     send: function () {
       console.log(this.value);
+    },
+    getFeedbacks: function () {
+      Utils.getRenterFeedbacks(this, this.id)
     }
   },
+  mounted() {
+    this.getFeedbacks()
+  }
 }
 </script>
 
