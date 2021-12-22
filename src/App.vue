@@ -218,6 +218,26 @@ export default {
 .card {
   height: 300px;
 }
+
+#Apartment {
+  box-sizing: border-box;
+  display: block;
+}
+
+.aparts {
+  margin-left: 100px;
+  width: 80%;
+  display: inline-block;
+}
+
+.filter {
+  width: 15%;
+  display: inline-block;
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  /*top: -500px;*/
+}
 #auth {
   margin:20% 25% 0 25%;
   width:50%;

@@ -1,92 +1,101 @@
 <template>
   <div id='Apartment'>
-    <div v-if="isShow">
-      <div class="content">
-        <h4>Введите данные</h4>
-        <br>
-        <b-form-input v-model="maxPrice" @ placeholder="Максимальная цена" ></b-form-input>
-        <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
-        <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
-        <b-button v-on:click="loadAparts">Искать</b-button>
-      </div>
+    <div v-if="!isView" class="filter">
+      <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
+      <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
+      <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
+      <b-button v-on:click="filterAparts">Фильтровать</b-button>
     </div>
-    <div v-else>
-      <div v-if="isId">
-        <h3>Квартира:</h3>
+    <div class="aparts">
+      <div v-if="isShow">
+        <div class="content">
+          <h4>Введите данные</h4>
+          <br>
+          <b-form-input v-model="maxPrice" @ placeholder="Максимальная цена" ></b-form-input>
+          <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
+          <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
+          <b-button v-on:click="loadAparts">Искать</b-button>
+        </div>
       </div>
       <div v-else>
-        <h3>Квартиры:</h3>
+        <div v-if="isView">
+          <h3>Квартира:</h3>
+        </div>
+        <div v-else>
+          <h3>Квартиры:</h3>
+        </div>
+        <!--      <div>-->
+        <!--        <h4>Введите данные</h4>-->
+        <!--        <br>-->
+        <!--        <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>-->
+        <!--        <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>-->
+        <!--        <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>-->
+        <!--        <b-button v-on:click="filterAparts">Фильтровать</b-button>-->
+        <!--      </div>-->
+        <div class="content">
+
+          <div class="column" v-for="apartment in apartments" v-bind:key="apartment.id">
+            <b-card>
+              <b-list-group>
+                <b-list-group-item>Количество комнат: {{ apartment.roomsCount }}</b-list-group-item>
+                <b-list-group-item>Количество жильцов: {{ apartment.lodgerCount }}</b-list-group-item>
+                <b-list-group-item>Адрес: {{ apartment.address }}</b-list-group-item>
+                <b-list-group-item>Цена: {{ apartment.price }}</b-list-group-item>
+
+                <!--            <router-link :to="{path: '/apartment/' + apartment.id }">Обзор</router-link>-->
+              </b-list-group>
+              <br>
+              <b-button v-on:click="viewApart(apartment.id)">Обзор</b-button>
+            </b-card>
+          </div>
+
+        </div>
+        <!--      <div v-if="isId">-->
+
+        <!--        <GoogleMap :locationProp=locat />-->
+        <!--        <ApartmentFeedback :id=id>-->
+
+        <!--        </ApartmentFeedback>-->
+        <!--        <router-link :to="{path: '/landlord/' + login}">Назад</router-link>-->
+        <!--      </div>-->
       </div>
-      <div>
-        <h4>Введите данные</h4>
+      <div v-if="isView" class="content-view">
+        <b-list-group>
+          <b-list-group-item>Количество комнат: {{ viewApartment.roomsCount }}</b-list-group-item>
+          <b-list-group-item>Количество жильцов: {{ viewApartment.lodgerCount }}</b-list-group-item>
+          <b-list-group-item>Адрес: {{ viewApartment.address }}</b-list-group-item>
+          <b-list-group-item>Цена: {{ viewApartment.price }}</b-list-group-item>
+          <b-list-group-item>Цена после вашего заселения: {{ futurePrice }}</b-list-group-item>
+          <br>
+          <b-img v-bind:src="'data:image/gif;base64,' + viewApartment.photos[0].photo" alt=""></b-img>
+
+        </b-list-group>
+
+
+        <GoogleMap :locationProp=viewApartment.location />
+        <ApartmentFeedback :id=viewApartment.id>
+
+        </ApartmentFeedback>
+        <div v-if="isAddFeedback">
+          <b-form-select v-model="selected" :options="feedbacksRating"></b-form-select>
+          <b-form-input v-model="feedbackText" placeholder="Отзыв"></b-form-input>
+        </div>
+        <b-button v-on:click="addFeedback">Добавить отзыв</b-button>
+
+        <b-button v-on:click="closeApart">Назад</b-button>
+
         <br>
-        <b-form-input v-model="maxPrice" placeholder="Максимальная цена"></b-form-input>
-        <b-form-input v-model="rooms" placeholder="Количество комнат"></b-form-input>
-        <b-form-input v-model="lodgers" placeholder="Количество жильцов"></b-form-input>
-        <b-button v-on:click="filterAparts">Фильтровать</b-button>
-      </div>
-      <div class="content">
 
-        <div class="column" v-for="apartment in apartments" v-bind:key="apartment.id">
-          <b-card>
-          <b-list-group>
-            <b-list-group-item>Количество комнат: {{ apartment.roomsCount }}</b-list-group-item>
-            <b-list-group-item>Количество жильцов: {{ apartment.lodgerCount }}</b-list-group-item>
-            <b-list-group-item>Адрес: {{ apartment.address }}</b-list-group-item>
-            <b-list-group-item>Цена: {{ apartment.price }}</b-list-group-item>
+        <b-button v-on:click="chooseApart">Хочу здесь жить</b-button>
 
-<!--            <router-link :to="{path: '/apartment/' + apartment.id }">Обзор</router-link>-->
-          </b-list-group>
-            <br>
-          <b-button v-on:click="viewApart(apartment.id)">Обзор</b-button>
-          </b-card>
+        <div v-if="currentLogin==='admin' || $route.params.login !== undefined">
+          <b-button v-on:click="deleteAparts(viewApartment.id)">Удалить</b-button>
         </div>
 
+
       </div>
-<!--      <div v-if="isId">-->
-
-<!--        <GoogleMap :locationProp=locat />-->
-<!--        <ApartmentFeedback :id=id>-->
-
-<!--        </ApartmentFeedback>-->
-<!--        <router-link :to="{path: '/landlord/' + login}">Назад</router-link>-->
-<!--      </div>-->
     </div>
-    <div v-if="isView" class="content-view">
-      <b-list-group>
-        <b-list-group-item>Количество комнат: {{ viewApartment.roomsCount }}</b-list-group-item>
-        <b-list-group-item>Количество жильцов: {{ viewApartment.lodgerCount }}</b-list-group-item>
-        <b-list-group-item>Адрес: {{ viewApartment.address }}</b-list-group-item>
-        <b-list-group-item>Цена: {{ viewApartment.price }}</b-list-group-item>
-        <b-list-group-item>Цена после вашего заселения: {{ futurePrice }}</b-list-group-item>
-        <br>
-        <b-img v-bind:src="'data:image/gif;base64,' + viewApartment.photos[0].photo" alt=""></b-img>
 
-      </b-list-group>
-
-
-      <GoogleMap :locationProp=viewApartment.location />
-      <ApartmentFeedback :id=viewApartment.id>
-
-      </ApartmentFeedback>
-      <div v-if="isAddFeedback">
-        <b-form-select v-model="selected" :options="feedbacksRating"></b-form-select>
-        <b-form-input v-model="feedbackText" placeholder="Отзыв"></b-form-input>
-      </div>
-      <b-button v-on:click="addFeedback">Добавить отзыв</b-button>
-
-      <b-button v-on:click="closeApart">Назад</b-button>
-
-      <br>
-
-      <b-button v-on:click="chooseApart">Хочу здесь жить</b-button>
-
-      <div v-if="currentLogin==='admin' || $route.params.login !== undefined">
-        <b-button v-on:click="deleteAparts(viewApartment.id)">Удалить</b-button>
-      </div>
-
-
-    </div>
 
 
   </div>
